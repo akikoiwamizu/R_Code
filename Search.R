@@ -14,15 +14,17 @@ clean_data <- raw_data[ , keeps]
 
 #Subset only successful searches
 new_data <- clean_data[which(clean_data$SEARCH_RESULT_CATEGORY == 'SUCCESS'), ]
+new_data$UI_VALUE_DESC <- strsplit(new_data$UI_VALUE_DESC,' ',fixed=TRUE)
 
 #Search Title or Contextual?
-new_data$SEARCH_TEXT <- tolower(new_data$SEARCH_TEXT)
-new_data$UI_VALUE_DESC <- tolower(new_data$UI_VALUE_DESC)
-new_data$SEARCH_CONTEXT <- sapply(new_data$UI_VALUE_DESC, grepl, new_data$SEARCH_TEXT)
-  #ifelse(new_data$SEARCH_TEXT %in% new_data$UI_VALUE_DESC, TRUE, FALSE)
-  
+#new_data$SEARCH_TEXT <- tolower(new_data$SEARCH_TEXT)
+#new_data$UI_VALUE_DESC <- tolower(new_data$UI_VALUE_DESC)
+new_data$SEARCH_CONTEXT <- agrepl(new_data$SEARCH_TEXT, new_data$UI_VALUE_DESC, ignore.case = TRUE)
   #grepl(new_data$SEARCH_TEXT, new_data$UI_VALUE_DESC, fixed = TRUE)
+  #ifelse(new_data$SEARCH_TEXT %in% new_data$UI_VALUE_DESC, TRUE, FALSE)
+
 
 #Proportion count
 table(new_data$SEARCH_CONTEXT)
+
 
