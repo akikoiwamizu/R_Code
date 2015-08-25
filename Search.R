@@ -35,29 +35,25 @@ expanded_search_list$SEARCH_CONTEXT <- (grepl(expanded_search_list$SEARCH_TEXT, 
                                               
 #Manually fix the negative false results
 neg_false <- subset(expanded_search_list, expanded_search_list$SEARCH_CONTEXT == FALSE)
-neg_false$SEARCH_CONTEXT <- (pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_01, nomatch = FALSE, duplicates.ok = TRUE)
-                             | pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_02, nomatch = FALSE, duplicates.ok = TRUE)
-                             | pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_03, nomatch = FALSE, duplicates.ok = TRUE)
-                             | pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_04, nomatch = FALSE, duplicates.ok = TRUE)
-                             | pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_05, nomatch = FALSE, duplicates.ok = TRUE)
-                             | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_01, ignore.case = TRUE, fixed = FALSE)
-                             | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_02, ignore.case = TRUE, fixed = FALSE)
-                             | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_03, ignore.case = TRUE, fixed = FALSE)
-                             | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_04, ignore.case = TRUE, fixed = FALSE)
-                             | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_05, ignore.case = TRUE, fixed = FALSE)
-                             | (neg_false$SEARCH_TEXT %in% neg_false$UI_VALUE_DESC_01)
-                             | (neg_false$SEARCH_TEXT %in% neg_false$UI_VALUE_DESC_02)
-                             | (neg_false$SEARCH_TEXT %in% neg_false$UI_VALUE_DESC_03)
-                             | (neg_false$SEARCH_TEXT %in% neg_false$UI_VALUE_DESC_04)
-                             | (neg_false$SEARCH_TEXT %in% neg_false$UI_VALUE_DESC_05)
-                             )
+export_false <- write.csv(neg_false, "/Users/aiwamizu/Desktop/false_negs.csv")
+# neg_false$SEARCH_CONTEXT <- (pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_01, nomatch = FALSE, duplicates.ok = TRUE)
+#                              | pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_02, nomatch = FALSE, duplicates.ok = TRUE)
+#                              | pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_03, nomatch = FALSE, duplicates.ok = TRUE)
+#                              | pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_04, nomatch = FALSE, duplicates.ok = TRUE)
+#                              | pmatch(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_05, nomatch = FALSE, duplicates.ok = TRUE)
+#                              | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_01, ignore.case = TRUE, fixed = FALSE)
+#                              | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_02, ignore.case = TRUE, fixed = FALSE)
+#                              | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_03, ignore.case = TRUE, fixed = FALSE)
+#                              | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_04, ignore.case = TRUE, fixed = FALSE)
+#                              | grepl(neg_false$SEARCH_TEXT, neg_false$UI_VALUE_DESC_05, ignore.case = TRUE, fixed = FALSE)
+#                              )
 
+#AFTER TESTING PARTIAL MATCHES IN EXCEL THE NUMBER OF MATCHES ARE : 37,669 OUT OF 43,099
 
 #Proportion count
-table(expanded_search_list$SEARCH_CONTEXT)
-table(neg_false$SEARCH_CONTEXT)
+#table(neg_false$SEARCH_CONTEXT)
 
 #Sum the number of title and contextual searches & find the percentages of total successful searches
-title_searches <- sum(length(which(expanded_search_list$SEARCH_CONTEXT == TRUE)), length(which(neg_false$SEARCH_CONTEXT == TRUE)), na.rm = TRUE)
-(title_searches/106721) * 100
-((106721 - title_searches)/106721) * 100
+total_title_searches <- sum(length(which(expanded_search_list$SEARCH_CONTEXT == TRUE)), 37669, na.rm = TRUE)
+percent_title_searches <- (title_searches/106721) * 100
+percent_context_searches <- ((106721 - title_searches)/106721) * 100
